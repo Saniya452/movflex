@@ -1,21 +1,25 @@
 import HeroSection from '@/components/ui/HeroSection';
 import ContentCarousel from '@/components/ui/ContentCarousel';
-import { getFeaturedMovie, getTrending, getNewReleases, getTopRatedMovies } from '@/lib/tmdb';
+import { getFeaturedMovie, getTrending, getNewReleases, getTopRatedMovies, getMovieGenres, getTVGenres } from '@/lib/tmdb';
 import type { Movie, TVShow } from '@/types';
 
 export default async function Home() {
   try {
-    // Fetch data in parallel
-    const [featuredMovie, trending, newReleases, topRated] = await Promise.all([
+    // Fetch data in parallel (genres for hero genre labels + filters elsewhere)
+    const [featuredMovie, trending, newReleases, topRated, movieGenres, tvGenres] = await Promise.all([
       getFeaturedMovie(),
       getTrending(),
       getNewReleases(),
       getTopRatedMovies(),
+      getMovieGenres(),
+      getTVGenres(),
     ]);
 
     // Use featured movie or first trending item with backdrop as hero
     const heroItem = featuredMovie || trending.find((item) => item.backdrop_path) as Movie | TVShow | undefined;
     const relatedItems = trending.filter((item) => item.id !== heroItem?.id).slice(0, 8);
+    const isHeroTV = heroItem?.media_type === 'tv' || (heroItem && 'name' in heroItem);
+    const heroGenreList = isHeroTV ? tvGenres : movieGenres;
 
     return (
       <div className="min-h-screen bg-black">
@@ -24,12 +28,13 @@ export default async function Home() {
           <HeroSection 
             featured={heroItem} 
             relatedItems={relatedItems}
-            isTVShow={heroItem.media_type === 'tv' || 'name' in heroItem}
+            isTVShow={!!isHeroTV}
+            genreList={heroGenreList}
           />
         )}
 
-        {/* Content Sections */}
-        <div className="px-4 sm:px-6 lg:px-8 py-8">
+        {/* Content Sections - less top padding to reduce gap below hero */}
+        <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-5 lg:pt-6 pb-8">
           {/* New Releases */}
           {newReleases.length > 0 && (
             <ContentCarousel 

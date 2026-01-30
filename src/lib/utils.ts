@@ -14,3 +14,8 @@ export function formatDate(dateString: string): string {
 export function formatRating(rating: number): string {
   return `${rating.toFixed(1)}/10`;
 }
+
+// Year options for filter dropdowns (current year down to 1950)
+const CURRENT_YEAR = new Date().getFullYear();
+const START_YEAR = 1950;
+export const FILTER_YEARS = Array.from({ length: CURRENT_YEAR - START_YEAR + 1 }, (_, i) => CURRENT_YEAR - i);

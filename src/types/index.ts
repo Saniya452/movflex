@@ -41,3 +41,24 @@ export interface TMDBResponse<T> {
   total_pages: number;
   total_results: number;
 }
+
+// Genre list API response (e.g. /genre/movie/list)
+export interface GenreListResponse {
+  genres: Genre[];
+}
+
+// Discover/filter params for movies
+export interface DiscoverMovieParams {
+  with_genres?: string; // comma-separated genre ids
+  primary_release_year?: number;
+  page?: number;
+  sort_by?: string;
+}
+
+// Discover/filter params for TV
+export interface DiscoverTVParams {
+  with_genres?: string;
+  first_air_date_year?: number;
+  page?: number;
+  sort_by?: string;
+}
