@@ -80,6 +80,7 @@ export default function GridWithLoadMore(props: GridWithLoadMoreProps) {
             key={getKey(item, mode, searchType)}
             item={item}
             isTVShow={getIsTVShow(item, mode, searchType)}
+            variant="grid"
           />
         ))}
       </div>

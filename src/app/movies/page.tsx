@@ -33,7 +33,7 @@ export default async function MoviesPage({
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-white">Movies</h1>
           <Suspense fallback={<div className="h-10 w-64 bg-zinc-800 rounded-lg animate-pulse" />}>

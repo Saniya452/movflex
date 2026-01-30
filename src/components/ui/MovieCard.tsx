@@ -8,9 +8,11 @@ import type { Movie, TVShow } from '@/types';
 interface MovieCardProps {
   item: Movie | TVShow;
   isTVShow?: boolean;
+  /** 'carousel' = fixed width for horizontal scroll, 'grid' = full width for grid layout */
+  variant?: 'carousel' | 'grid';
 }
 
-export default function MovieCard({ item, isTVShow = false }: MovieCardProps) {
+export default function MovieCard({ item, isTVShow = false, variant = 'carousel' }: MovieCardProps) {
   const title = isTVShow ? (item as TVShow).name : (item as Movie).title;
   const releaseDate = isTVShow 
     ? (item as TVShow).first_air_date 
@@ -20,6 +22,8 @@ export default function MovieCard({ item, isTVShow = false }: MovieCardProps) {
   const posterUrl = getImageUrl(item.poster_path, 'w500');
   const href = isTVShow ? `/tv-shows/${item.id}` : `/movies/${item.id}`;
 
+  const isGrid = variant === 'grid';
+
   // Determine rating color
   const getRatingColor = (rating: number) => {
     if (rating >= 8) return 'bg-green-600';
@@ -28,14 +32,21 @@ export default function MovieCard({ item, isTVShow = false }: MovieCardProps) {
   };
 
   return (
-    <Link href={href} className="group relative flex-shrink-0 w-[200px] transition-transform duration-300 hover:scale-105">
+    <Link
+      href={href}
+      className={
+        isGrid
+          ? 'group relative block w-full transition-transform duration-300 hover:scale-[1.02]'
+          : 'group relative flex-shrink-0 w-[200px] transition-transform duration-300 hover:scale-105'
+      }
+    >
       <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden bg-zinc-800">
         <Image
           src={posterUrl}
           alt={title || `${isTVShow ? 'TV Show' : 'Movie'} poster`}
           fill
           className="object-cover transition-opacity duration-300 group-hover:opacity-80"
-          sizes="200px"
+          sizes={isGrid ? '(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw' : '200px'}
         />
         {/* Rating badge */}
         <div className={`absolute bottom-2 left-2 px-2 py-1 rounded ${getRatingColor(item.vote_average)} text-white text-xs font-semibold`}>
