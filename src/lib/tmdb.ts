@@ -62,6 +62,12 @@ export async function getTVShowById(id: number): Promise<TVShow> {
   return response.data;
 }
 
+// Get TV show credits (cast + crew)
+export async function getTVShowCredits(tvId: number): Promise<MovieCreditsResponse> {
+  const response = await tmdbClient.get<MovieCreditsResponse>(`/tv/${tvId}/credits`);
+  return response.data;
+}
+
 // Get trending content (all media types)
 export async function getTrending(): Promise<(Movie | TVShow)[]> {
   const response = await tmdbClient.get<TMDBResponse<Movie | TVShow>>('/trending/all/week');
