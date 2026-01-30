@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getMovieById, getMovieCredits, getImageUrl, getBackdropUrl } from '@/lib/tmdb';
-import FavoriteButton from '@/components/ui/FavoriteButton';
+import WatchlistButton from '@/components/ui/WatchlistButton';
 import type { CastMember } from '@/types';
 
 interface MovieDetailsPageProps {
@@ -135,7 +135,12 @@ export default async function MovieDetailsPage({ params }: MovieDetailsPageProps
             </div>
 
             <div className="mb-7">
-              <FavoriteButton movieId={movie.id} mediaType="movie" />
+              <WatchlistButton
+                movieId={movie.id}
+                mediaType="movie"
+                title={movie.title}
+                posterPath={movie.poster_path}
+              />
             </div>
 
             {movie.overview && (

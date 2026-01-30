@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTVShowById, getTVShowCredits, getImageUrl, getBackdropUrl } from '@/lib/tmdb';
-import FavoriteButton from '@/components/ui/FavoriteButton';
+import WatchlistButton from '@/components/ui/WatchlistButton';
 import type { CastMember } from '@/types';
 
 interface TVShowDetailsPageProps {
@@ -140,7 +140,12 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
             </div>
 
             <div className="mb-7">
-              <FavoriteButton movieId={show.id} mediaType="tv" />
+              <WatchlistButton
+                movieId={show.id}
+                mediaType="tv"
+                title={show.name}
+                posterPath={show.poster_path}
+              />
             </div>
 
             {show.overview && (
