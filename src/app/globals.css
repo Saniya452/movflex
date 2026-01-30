@@ -30,6 +30,26 @@ body {
   display: none;
 }
 
+/* Dropdown list: themed scrollbar (lighter track, medium thumb) */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown-list::-webkit-scrollbar-track {
+  background: rgb(82 82 91); /* zinc-500 - lighter than menu for visibility */
+  border-radius: 0 6px 6px 0;
+}
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: rgb(113 113 122); /* zinc-400 - medium gray */
+  border-radius: 6px;
+}
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: rgb(161 161 170); /* zinc-300 */
+}
+.dropdown-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(113 113 122) rgb(82 82 91);
+}
+
 /* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;

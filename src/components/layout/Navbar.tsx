@@ -44,9 +44,16 @@ export default function Navbar() {
           </Link>
 
           {/* Search: visible on tablet+ in center; hidden on mobile (moved to menu) */}
-          <div className="hidden md:block flex-1 min-w-0 w-full max-w-none justify-self-stretch lg:justify-self-stretch">
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          </div>
+          <form
+            action="/search"
+            method="GET"
+            className="hidden md:block flex-1 min-w-0 w-full max-w-none justify-self-stretch lg:justify-self-stretch"
+            onSubmit={(e) => {
+              if (!searchQuery.trim()) e.preventDefault();
+            }}
+          >
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} name="q" />
+          </form>
 
           {/* Right column: desktop nav (md+) or hamburger (mobile only) */}
           <div className="flex items-center justify-end shrink-0">
@@ -96,9 +103,16 @@ export default function Navbar() {
           >
             <div className="flex flex-col min-h-0 h-full overflow-y-auto overflow-x-hidden px-4 pt-6 pb-8 w-full max-w-full">
               {/* Search in menu (mobile) */}
-              <div className="mb-6 shrink-0">
-                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-              </div>
+              <form
+                action="/search"
+                method="GET"
+                className="mb-6 shrink-0"
+                onSubmit={(e) => {
+                  if (!searchQuery.trim()) e.preventDefault();
+                }}
+              >
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} name="q" />
+              </form>
               {/* Nav links — hero section ke upar dikhenge */}
               <nav className="flex flex-col gap-1 shrink-0 pt-2" aria-label="Mobile navigation">
                 {navItems.map(({ href, label }) => (
