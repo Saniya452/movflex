@@ -2,25 +2,46 @@
 
 ## Project Structure
 
+```
 src/
-├── app/ # Pages & Routes
-│ ├── layout.tsx # Main layout (navbar, footer)
-│ ├── page.tsx # Home page (/)
-│ ├── movies/ # Movies pages
-│ │ ├── page.tsx # /movies
-│ │ └── loading.tsx # Loading state for movies
-│ └── / # Watchlist Screen page
-│ └── page.tsx # /watchlist
+├── app/                    # Pages & routes
+│   ├── layout.tsx          # Main layout (navbar, footer)
+│   ├── page.tsx            # Home (/)
+│   ├── movies/
+│   │   ├── page.tsx        # /movies
+│   │   └── loading.tsx
+│   ├── tv-shows/
+│   │   ├── page.tsx        # /tv-shows
+│   │   └── loading.tsx
+│   └── watchlist/
+│       └── page.tsx        # /watchlist
 │
-├── components/ # All React components
-│ ├── layout/ # Layout components
-│ │ └── Navbar.tsx # Navigation bar
-│ └── ui/ # Reusable UI components
-│ └── Button.tsx # Button component
+├── components/
+│   ├── layout/
+│   │   └── Navbar.tsx
+│   └── ui/
+│       ├── Button.tsx
+│       ├── ContentCarousel.tsx
+│       ├── HeroSection.tsx
+│       └── MovieCard.tsx
 │
-├── lib/ # Utilities & helpers
-│ ├── tmdb.ts # TMDB API calls
-│ └── utils.ts # Helper functions
+├── lib/
+│   ├── tmdb.ts             # TMDB API (movies & TV shows)
+│   └── utils.ts
 │
-└── types/ # TypeScript types
-└── index.ts # All type definitions
+└── types/
+    └── index.ts            # Movie, TV show & API types
+```
+
+---
+
+## What’s done
+
+- **Pages:** Movies (`/movies`), TV shows (`/tv-shows`), Watchlist (`/watchlist`) with loading states
+- **UI:** Navbar, Button, ContentCarousel, MovieCard, HeroSection
+- **API:** TMDB integration in `lib/tmdb.ts` for movies & TV shows
+- **Types:** TypeScript types for movies, TV shows, and API responses in `types/index.ts`
+
+**Rough time:** 30 min to 1 hr (pages + components + TMDB + types)
+
+---
