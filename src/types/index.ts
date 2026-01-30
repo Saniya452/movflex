@@ -62,3 +62,19 @@ export interface DiscoverTVParams {
   page?: number;
   sort_by?: string;
 }
+
+// Cast member (from TMDB credits)
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+  order: number;
+}
+
+// Movie credits API response
+export interface MovieCreditsResponse {
+  id: number;
+  cast: CastMember[];
+  crew: unknown[];
+}

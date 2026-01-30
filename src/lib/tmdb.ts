@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Movie, TVShow, TMDBResponse, GenreListResponse, DiscoverMovieParams, DiscoverTVParams, Genre } from '@/types';
+import type { Movie, TVShow, TMDBResponse, GenreListResponse, DiscoverMovieParams, DiscoverTVParams, Genre, MovieCreditsResponse } from '@/types';
 
 // Map genre_ids to names using API genre list (for HeroSection, cards, etc.)
 export function getGenreNamesFromIds(genreIds: number[] | undefined, genreList: Genre[]): string[] {
@@ -22,8 +22,8 @@ const tmdbClient = axios.create({
   },
 });
 
-// Helper function to get full image URL
-export function getImageUrl(path: string | null, size: 'w500' | 'w780' | 'original' = 'w500'): string {
+// Helper function to get full image URL (poster/backdrop sizes)
+export function getImageUrl(path: string | null, size: 'w500' | 'w780' | 'w185' | 'original' = 'w500'): string {
   if (!path) return '/images/logo-dark-transparent.png';
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`;
 }
@@ -41,6 +41,12 @@ export async function getMovies(): Promise<Movie[]> {
  // Get movie by id
 export async function getMovieById(id: number): Promise<Movie> {
   const response = await tmdbClient.get<Movie>(`/movie/${id}`);
+  return response.data;
+}
+
+// Get movie credits (cast + crew)
+export async function getMovieCredits(movieId: number): Promise<MovieCreditsResponse> {
+  const response = await tmdbClient.get<MovieCreditsResponse>(`/movie/${movieId}/credits`);
   return response.data;
 }
 
