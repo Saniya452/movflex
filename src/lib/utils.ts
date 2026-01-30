@@ -15,6 +15,9 @@ export function formatRating(rating: number): string {
   return `${rating.toFixed(1)}/10`;
 }
 
+// TMDB returns 20 results per page (fixed by API)
+export const RESULTS_PER_PAGE = 20;
+
 // Year options for filter dropdowns (current year down to 1950)
 const CURRENT_YEAR = new Date().getFullYear();
 const START_YEAR = 1950;

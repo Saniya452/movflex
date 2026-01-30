@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { searchMulti, searchMovies, searchTVShows } from '@/lib/tmdb';
-import MovieCard from '@/components/ui/MovieCard';
+import GridWithLoadMore from '@/components/ui/GridWithLoadMore';
 
 export const metadata = {
   title: 'Search',
@@ -10,11 +10,10 @@ export const metadata = {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string; type?: string }>;
+  searchParams: Promise<{ q?: string; type?: string }>;
 }) {
   const params = await searchParams;
   const query = (params.q ?? '').trim();
-  const page = Number(params.page) || 1;
   const type = (params.type === 'movie' || params.type === 'tv' ? params.type : 'all') as 'all' | 'movie' | 'tv';
 
   if (!query) {
@@ -30,12 +29,11 @@ export default async function SearchPage({
 
   const searchResult =
     type === 'movie'
-      ? await searchMovies(query, page)
+      ? await searchMovies(query, 1)
       : type === 'tv'
-        ? await searchTVShows(query, page)
-        : await searchMulti(query, page);
+        ? await searchTVShows(query, 1)
+        : await searchMulti(query, 1);
   const { results, total_pages: totalPages } = searchResult;
-  const isTV = type === 'tv';
 
   return (
     <div className="min-h-screen bg-black">
@@ -48,9 +46,6 @@ export default async function SearchPage({
             </span>
           )}
         </h1>
-        <p className="text-zinc-400 text-sm mb-6">
-          {results.length > 0 ? `${results.length} result(s)` : 'No results'}
-        </p>
 
         {results.length === 0 ? (
           <div className="text-center py-16 text-zinc-400">
@@ -60,41 +55,13 @@ export default async function SearchPage({
             </Link>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-              {results.map((item) => (
-                <MovieCard
-                  key={type === 'all' ? `${(item as { media_type: string }).media_type}-${item.id}` : item.id}
-                  item={item}
-                  isTVShow={isTV || (item as { media_type?: string }).media_type === 'tv'}
-                />
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="mt-8 flex justify-center gap-2">
-                {page > 1 && (
-                  <Link
-                    href={`/search?q=${encodeURIComponent(query)}&page=${page - 1}${type !== 'all' ? `&type=${type}` : ''}`}
-                    className="px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 text-sm"
-                  >
-                    Previous
-                  </Link>
-                )}
-                <span className="px-4 py-2 text-zinc-400 text-sm">
-                  Page {page} of {totalPages}
-                </span>
-                {page < totalPages && (
-                  <Link
-                    href={`/search?q=${encodeURIComponent(query)}&page=${page + 1}${type !== 'all' ? `&type=${type}` : ''}`}
-                    className="px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 text-sm"
-                  >
-                    Next
-                  </Link>
-                )}
-              </div>
-            )}
-          </>
+          <GridWithLoadMore
+            mode="search"
+            initialItems={results}
+            totalPages={totalPages}
+            query={query}
+            type={type}
+          />
         )}
       </div>
     </div>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { discoverMovies, getMovieGenres } from '@/lib/tmdb';
 import { FILTER_YEARS } from '@/lib/utils';
 import DiscoverFilters from '@/components/ui/DiscoverFilters';
-import MovieCard from '@/components/ui/MovieCard';
+import GridWithLoadMore from '@/components/ui/GridWithLoadMore';
 
 export const metadata = {
   title: 'Movies',
@@ -13,19 +13,18 @@ export const metadata = {
 export default async function MoviesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ genre?: string; year?: string; page?: string }>;
+  searchParams: Promise<{ genre?: string; year?: string }>;
 }) {
   const params = await searchParams;
   const genre = params.genre ?? '';
   const year = params.year ?? '';
-  const page = Number(params.page) || 1;
 
   const [genresRes, discoverRes] = await Promise.all([
     getMovieGenres(),
     discoverMovies({
       with_genres: genre || undefined,
       primary_release_year: year ? Number(year) : undefined,
-      page,
+      page: 1,
     }),
   ]);
 
@@ -58,45 +57,13 @@ export default async function MoviesPage({
             )}
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-              {movies.map((movie) => (
-                <MovieCard key={movie.id} item={movie} isTVShow={false} />
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="mt-8 flex justify-center gap-2">
-                {page > 1 && (
-                  <Link
-                    href={`/movies?${new URLSearchParams({
-                      ...(genre && { genre }),
-                      ...(year && { year }),
-                      page: String(page - 1),
-                    }).toString()}`}
-                    className="px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 text-sm"
-                  >
-                    Previous
-                  </Link>
-                )}
-                <span className="px-4 py-2 text-zinc-400 text-sm">
-                  Page {page} of {totalPages}
-                </span>
-                {page < totalPages && (
-                  <Link
-                    href={`/movies?${new URLSearchParams({
-                      ...(genre && { genre }),
-                      ...(year && { year }),
-                      page: String(page + 1),
-                    }).toString()}`}
-                    className="px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 text-sm"
-                  >
-                    Next
-                  </Link>
-                )}
-              </div>
-            )}
-          </>
+          <GridWithLoadMore
+            mode="movies"
+            initialItems={movies}
+            totalPages={totalPages}
+            genre={genre}
+            year={year}
+          />
         )}
       </div>
     </div>
