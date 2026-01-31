@@ -51,9 +51,16 @@ export default function ContentCarousel({
           className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-2 pr-12"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
         >
-          {items.map((item) => (
-            <MovieCard key={item.id} item={item} isTVShow={isTVShow} />
-          ))}
+          {items.map((item, index) => {
+            const mediaType = (item as Movie & { media_type?: string }).media_type ?? (isTVShow ? 'tv' : 'movie');
+            return (
+              <MovieCard
+                key={`${mediaType}-${item.id}-${index}`}
+                item={item}
+                isTVShow={isTVShow}
+              />
+            );
+          })}
         </div>
         {/* Scroll buttons - positioned on sides, not overlapping posters */}
         <button
