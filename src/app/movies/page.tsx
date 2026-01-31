@@ -10,6 +10,8 @@ export const metadata = {
   description: 'Browse movies by genre and year.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function MoviesPage({
   searchParams,
 }: {
@@ -36,6 +38,8 @@ export default async function MoviesPage({
   const movies = [...(page1Res?.results ?? []), ...(page2Res?.results ?? [])];
   const totalPages = page1Res?.total_pages ?? 1;
   const hasFilters = !!genre || !!year;
+  const genreName = genre ? genresRes.find((g) => String(g.id) === genre)?.name : null;
+  const filterLabel = [genreName, year].filter(Boolean).join(' · ');
 
   return (
     <div className="min-h-screen bg-black">
@@ -52,6 +56,9 @@ export default async function MoviesPage({
             />
           </Suspense>
         </div>
+        {filterLabel && (
+          <p className="text-zinc-400 text-sm mb-4">Showing results for: <span className="text-white font-medium">{filterLabel}</span></p>
+        )}
 
         {movies?.length === 0 ? (
           <div className="text-center py-12 sm:py-16 text-zinc-400 px-4">
@@ -64,6 +71,7 @@ export default async function MoviesPage({
           </div>
         ) : (
           <GridWithLoadMore
+            key={`movies-${genre}-${year}`}
             mode="movies"
             initialItems={movies ?? []}
             initialPage={2}

@@ -80,9 +80,9 @@ export default function GridWithLoadMore(props: GridWithLoadMoreProps) {
     <>
       {/* Mobile-first grid: 2 cols mobile → 3 tablet → 4 → 5 → 6 desktop */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <MovieCard
-            key={getKey(item, mode, searchType)}
+            key={`${getKey(item, mode, searchType)}-${index}`}
             item={item}
             isTVShow={getIsTVShow(item, mode, searchType)}
             variant="grid"
