@@ -40,7 +40,6 @@ export default async function Home() {
             <ContentCarousel 
               title="New Releases" 
               items={newReleases}
-              showSwitch={true}
             />
           )}
 
