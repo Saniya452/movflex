@@ -89,7 +89,7 @@ export default function WatchlistPage() {
           <div className="flex flex-col items-center justify-center py-16 sm:py-24 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-center">
             <p className="text-xl font-medium text-zinc-400 mb-2">No watchlist items yet</p>
             <p className="text-zinc-500 text-sm max-w-sm">
-              Add movies or TV shows from their detail pages and they’ll appear here.
+              Save movies and shows from their pages, they’ll show up here so you can pick something to watch anytime.
             </p>
             <Link
               href="/movies"

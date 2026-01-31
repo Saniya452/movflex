@@ -48,7 +48,7 @@ export default async function Home() {
           {trending.length > 0 && (
             <ContentCarousel 
               title="Trending Now" 
-              items={trending.slice(0, 20)}
+              items={trending.slice(0, 40)}
             />
           )}
 
@@ -56,7 +56,7 @@ export default async function Home() {
           {topRated.length > 0 && (
             <ContentCarousel 
               title="Top Rated" 
-              items={topRated.slice(0, 20)}
+              items={topRated.slice(0, 40)}
             />
           )}
         </div>

@@ -19,16 +19,22 @@ export default async function TVShowsPage({
   const genre = params.genre ?? '';
   const year = params.year ?? '';
 
-  const [genresRes, discoverRes] = await Promise.all([
+  const [genresRes, page1Res, page2Res] = await Promise.all([
     getTVGenres(),
     discoverTV({
       with_genres: genre || undefined,
       first_air_date_year: year ? Number(year) : undefined,
       page: 1,
     }),
+    discoverTV({
+      with_genres: genre || undefined,
+      first_air_date_year: year ? Number(year) : undefined,
+      page: 2,
+    }),
   ]);
 
-  const { results: shows, total_pages: totalPages } = discoverRes;
+  const shows = [...(page1Res.results ?? []), ...(page2Res.results ?? [])];
+  const totalPages = page1Res.total_pages ?? 1;
   const hasFilters = !!genre || !!year;
 
   return (
@@ -60,6 +66,7 @@ export default async function TVShowsPage({
           <GridWithLoadMore
             mode="tv"
             initialItems={shows}
+            initialPage={2}
             totalPages={totalPages}
             genre={genre}
             year={year}

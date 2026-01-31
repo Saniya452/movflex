@@ -68,10 +68,13 @@ export async function getTVShowCredits(tvId: number): Promise<MovieCreditsRespon
   return response.data;
 }
 
-// Get trending content (all media types)
+// Get trending content (all media types) — fetch 2 pages for at least 40 items
 export async function getTrending(): Promise<(Movie | TVShow)[]> {
-  const response = await tmdbClient.get<TMDBResponse<Movie | TVShow>>('/trending/all/week');
-  return response.data.results;
+  const [page1, page2] = await Promise.all([
+    tmdbClient.get<TMDBResponse<Movie | TVShow>>('/trending/all/week', { params: { page: 1 } }),
+    tmdbClient.get<TMDBResponse<Movie | TVShow>>('/trending/all/week', { params: { page: 2 } }),
+  ]);
+  return [...(page1.data.results ?? []), ...(page2.data.results ?? [])];
 }
 
 // Get featured/trending movies for hero section
@@ -85,16 +88,22 @@ export async function getFeaturedMovie(): Promise<Movie | null> {
   }
 }
 
-// Get new releases (recent movies)
+// Get new releases (recent movies) — fetch 2 pages for at least 40 items
 export async function getNewReleases(): Promise<Movie[]> {
-  const response = await tmdbClient.get<TMDBResponse<Movie>>('/movie/now_playing');
-  return response.data.results;
+  const [page1, page2] = await Promise.all([
+    tmdbClient.get<TMDBResponse<Movie>>('/movie/now_playing', { params: { page: 1 } }),
+    tmdbClient.get<TMDBResponse<Movie>>('/movie/now_playing', { params: { page: 2 } }),
+  ]);
+  return [...(page1.data.results ?? []), ...(page2.data.results ?? [])];
 }
 
-// Get top rated movies
+// Get top rated movies — fetch 2 pages for at least 40 items
 export async function getTopRatedMovies(): Promise<Movie[]> {
-  const response = await tmdbClient.get<TMDBResponse<Movie>>('/movie/top_rated');
-  return response.data.results;
+  const [page1, page2] = await Promise.all([
+    tmdbClient.get<TMDBResponse<Movie>>('/movie/top_rated', { params: { page: 1 } }),
+    tmdbClient.get<TMDBResponse<Movie>>('/movie/top_rated', { params: { page: 2 } }),
+  ]);
+  return [...(page1.data.results ?? []), ...(page2.data.results ?? [])];
 }
 
 // ——— Dynamic filters & search ———

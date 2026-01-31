@@ -11,6 +11,7 @@ type GridWithLoadMoreProps =
   | {
       mode: 'movies';
       initialItems: Movie[];
+      initialPage?: number;
       totalPages: number;
       genre: string;
       year: string;
@@ -18,6 +19,7 @@ type GridWithLoadMoreProps =
   | {
       mode: 'tv';
       initialItems: TVShow[];
+      initialPage?: number;
       totalPages: number;
       genre: string;
       year: string;
@@ -44,8 +46,9 @@ function getIsTVShow(item: Movie | TVShow, mode: string, searchType?: SearchType
 
 export default function GridWithLoadMore(props: GridWithLoadMoreProps) {
   const { mode, initialItems, totalPages: initialTotalPages } = props;
+  const initialPage = 'initialPage' in props ? props.initialPage ?? 1 : 1;
   const [items, setItems] = useState<(Movie | TVShow)[]>(initialItems);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const [totalPages] = useState(initialTotalPages);
   const [loading, setLoading] = useState(false);
   const hasMore = page < totalPages;

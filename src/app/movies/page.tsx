@@ -19,16 +19,22 @@ export default async function MoviesPage({
   const genre = params.genre ?? '';
   const year = params.year ?? '';
 
-  const [genresRes, discoverRes] = await Promise.all([
+  const [genresRes, page1Res, page2Res] = await Promise.all([
     getMovieGenres(),
     discoverMovies({
       with_genres: genre || undefined,
       primary_release_year: year ? Number(year) : undefined,
       page: 1,
     }),
+    discoverMovies({
+      with_genres: genre || undefined,
+      primary_release_year: year ? Number(year) : undefined,
+      page: 2,
+    }),
   ]);
 
-  const { results: movies, total_pages: totalPages } = discoverRes;
+  const movies = [...(page1Res.results ?? []), ...(page2Res.results ?? [])];
+  const totalPages = page1Res.total_pages ?? 1;
   const hasFilters = !!genre || !!year;
 
   return (
@@ -60,6 +66,7 @@ export default async function MoviesPage({
           <GridWithLoadMore
             mode="movies"
             initialItems={movies}
+            initialPage={2}
             totalPages={totalPages}
             genre={genre}
             year={year}

@@ -161,20 +161,12 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
 
             {/* Cast */}
             {cast.length > 0 && (
-              <section className="mt-auto overflow-visible">
+              <section className="mt-auto overflow-visible bg-transparent">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 mb-4">
                   Cast
                 </h2>
-                <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
-                  {/* Left fade – solid at edge so cut circles merge into background */}
-                  <div
-                    className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 z-10 pointer-events-none shrink-0"
-                    style={{
-                      background: 'linear-gradient(to right, #000 0%, #000 35%, rgba(0,0,0,0.6) 60%, transparent 100%)',
-                    }}
-                    aria-hidden
-                  />
-                  <div className="flex gap-5 overflow-x-auto overflow-y-visible pt-4 pb-3 px-4 sm:px-6 lg:px-8 scrollbar-hide">
+                <div className="-mx-4 sm:-mx-6 lg:-mx-8 bg-transparent">
+                  <div className="flex gap-5 overflow-x-auto overflow-y-visible pt-4 pb-3 px-4 sm:px-6 lg:px-8 scrollbar-hide bg-transparent">
                     {cast.map((member) => (
                       <div
                         key={member.id}
@@ -192,14 +184,6 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
                       </div>
                     ))}
                   </div>
-                  {/* Right fade – solid at edge so cut circles merge into background */}
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 z-10 pointer-events-none shrink-0"
-                    style={{
-                      background: 'linear-gradient(to left, #000 0%, #000 35%, rgba(0,0,0,0.6) 60%, transparent 100%)',
-                    }}
-                    aria-hidden
-                  />
                 </div>
               </section>
             )}

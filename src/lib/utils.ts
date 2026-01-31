@@ -15,8 +15,9 @@ export function formatRating(rating: number): string {
   return `${rating.toFixed(1)}/10`;
 }
 
-// TMDB returns 20 results per page (fixed by API)
+// TMDB returns 20 results per page (fixed by API); we fetch 2 pages for 40 items
 export const RESULTS_PER_PAGE = 20;
+export const INITIAL_ITEMS_COUNT = 40;
 
 // Year options for filter dropdowns (current year down to 1950)
 const CURRENT_YEAR = new Date().getFullYear();
