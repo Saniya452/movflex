@@ -20,6 +20,31 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Global scrollbar styling - dark theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(82 82 91) rgb(26 26 26);
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: rgb(26 26 26);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(82 82 91);
+  border-radius: 10px;
+  border: 2px solid rgb(26 26 26);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(113 113 122);
+}
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
 /* Hide scrollbar for carousels */
 .scrollbar-hide {
   -ms-overflow-style: none;
