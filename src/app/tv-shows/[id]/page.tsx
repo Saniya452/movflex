@@ -72,10 +72,10 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
   }
 
   const cast = credits.cast?.slice(0, 20) ?? [];
-  const rating = show.vote_average.toFixed(1);
-  const posterUrl = getImageUrl(show.poster_path, 'w500');
-  const backdropUrl = show.backdrop_path ? getBackdropUrl(show.backdrop_path) : null;
-  const year = show.first_air_date ? new Date(show.first_air_date).getFullYear() : null;
+  const rating = show?.vote_average.toFixed(1) ?? '0.0';
+  const posterUrl = getImageUrl(show?.poster_path ?? '', 'w500');
+  const backdropUrl = show?.backdrop_path ? getBackdropUrl(show?.backdrop_path) : null;
+  const year = show?.first_air_date ? new Date(show?.first_air_date).getFullYear() : null;
 
   return (
     <div className="min-h-screen bg-black">
@@ -109,7 +109,7 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
             <div className="relative aspect-[2/3] rounded-2xl overflow-hidden bg-zinc-800/80 shadow-2xl ring-1 ring-white/10">
               <Image
                 src={posterUrl}
-                alt={show.name}
+                alt={show?.name ?? ''}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 320px"
@@ -121,19 +121,19 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
           {/* Content */}
           <div className="flex-1 min-w-0 flex flex-col">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3 drop-shadow-sm">
-              {show.name}
+              {show?.name}
             </h1>
             <div className="flex flex-wrap items-center gap-3 mb-5">
               {year && (
                 <span className="text-zinc-400 text-lg font-medium">{year}</span>
               )}
-              {show.number_of_seasons != null && (
+              {show?.number_of_seasons != null && (
                 <span className="text-zinc-400 text-lg font-medium">
-                  {show.number_of_seasons} season{show.number_of_seasons !== 1 ? 's' : ''}
+                  {show?.number_of_seasons} season{show?.number_of_seasons !== 1 ? 's' : ''}
                 </span>
               )}
               <span
-                className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg ${getRatingColor(show.vote_average)}`}
+                className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg ${getRatingColor(show?.vote_average ?? 0)}`}
               >
                 {rating}
               </span>
@@ -141,45 +141,45 @@ export default async function TVShowDetailsPage({ params }: TVShowDetailsPagePro
 
             <div className="mb-7">
               <WatchlistButton
-                movieId={show.id}
+                movieId={show?.id ?? 0}
                 mediaType="tv"
-                title={show.name}
-                posterPath={show.poster_path}
+                title={show?.name ?? ''}
+                posterPath={show?.poster_path ?? ''}
               />
             </div>
 
-            {show.overview && (
+            {show?.overview && (
               <section className="mb-8">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 mb-3">
                   Overview
                 </h2>
                 <p className="text-zinc-200 leading-relaxed text-base sm:text-lg max-w-2xl">
-                  {show.overview}
+                  {show?.overview}
                 </p>
               </section>
             )}
 
             {/* Cast */}
-            {cast.length > 0 && (
+            {cast?.length > 0 && (
               <section className="mt-auto overflow-visible bg-transparent">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 mb-4">
                   Cast
                 </h2>
                 <div className="-mx-4 sm:-mx-6 lg:-mx-8 bg-transparent">
                   <div className="flex gap-5 overflow-x-auto overflow-y-visible pt-4 pb-3 px-4 sm:px-6 lg:px-8 scrollbar-hide bg-transparent">
-                    {cast.map((member) => (
+                    {cast?.map((member) => (
                       <div
-                        key={member.id}
+                        key={member?.id}
                         className="group flex-shrink-0 w-28 text-center pt-1"
                       >
                         <div className="relative w-24 h-24 rounded-full overflow-hidden bg-zinc-700/90 mx-auto mb-2.5 flex items-center justify-center ring-2 ring-zinc-600/50 group-hover:ring-emerald-500/40 transition-all duration-200">
                           <CastAvatar member={member} />
                         </div>
                         <p className="text-white text-sm font-medium truncate px-1" title={member.name}>
-                          {member.name}
+                          {member?.name}
                         </p>
                         <p className="text-zinc-500 text-xs truncate px-1" title={member.character}>
-                          {member.character}
+                          {member?.character}
                         </p>
                       </div>
                     ))}

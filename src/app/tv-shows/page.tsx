@@ -33,8 +33,8 @@ export default async function TVShowsPage({
     }),
   ]);
 
-  const shows = [...(page1Res.results ?? []), ...(page2Res.results ?? [])];
-  const totalPages = page1Res.total_pages ?? 1;
+  const shows = [...(page1Res?.results ?? []), ...(page2Res?.results ?? [])];
+  const totalPages = page1Res?.total_pages ?? 1;
   const hasFilters = !!genre || !!year;
 
   return (
@@ -53,7 +53,7 @@ export default async function TVShowsPage({
           </Suspense>
         </div>
 
-        {shows.length === 0 ? (
+        {shows?.length === 0 ? (
           <div className="text-center py-12 sm:py-16 text-zinc-400 px-4">
             <p className="text-base sm:text-lg mb-2">No TV shows found – try another search</p>
             {hasFilters && (
@@ -65,7 +65,7 @@ export default async function TVShowsPage({
         ) : (
           <GridWithLoadMore
             mode="tv"
-            initialItems={shows}
+            initialItems={shows ?? []}
             initialPage={2}
             totalPages={totalPages}
             genre={genre}

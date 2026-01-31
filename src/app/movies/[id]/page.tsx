@@ -72,10 +72,10 @@ export default async function MovieDetailsPage({ params }: MovieDetailsPageProps
   }
 
   const cast = credits.cast?.slice(0, 20) ?? [];
-  const rating = movie.vote_average.toFixed(1);
-  const posterUrl = getImageUrl(movie.poster_path, 'w500');
-  const backdropUrl = movie.backdrop_path ? getBackdropUrl(movie.backdrop_path) : null;
-  const year = movie.release_date ? new Date(movie.release_date).getFullYear() : null;
+  const rating = movie?.vote_average.toFixed(1) ?? '0.0';
+  const posterUrl = getImageUrl(movie?.poster_path ?? '', 'w500');
+  const backdropUrl = movie?.backdrop_path ? getBackdropUrl(movie?.backdrop_path) : null;
+  const year = movie?.release_date ? new Date(movie?.release_date).getFullYear() : null;
 
   return (
     <div className="min-h-screen bg-black">
@@ -121,7 +121,7 @@ export default async function MovieDetailsPage({ params }: MovieDetailsPageProps
           {/* Content */}
           <div className="flex-1 min-w-0 flex flex-col">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3 drop-shadow-sm">
-              {movie.title}
+              {movie?.title}
             </h1>
             <div className="flex flex-wrap items-center gap-3 mb-5">
               {year && (
@@ -136,20 +136,20 @@ export default async function MovieDetailsPage({ params }: MovieDetailsPageProps
 
             <div className="mb-7">
               <WatchlistButton
-                movieId={movie.id}
+                movieId={movie?.id ?? 0}
                 mediaType="movie"
-                title={movie.title}
-                posterPath={movie.poster_path}
+                title={movie?.title}
+                posterPath={movie?.poster_path}
               />
             </div>
 
-            {movie.overview && (
+            {movie?.overview && (
               <section className="mb-8">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 mb-3">
                   Overview
                 </h2>
                 <p className="text-zinc-200 leading-relaxed text-base sm:text-lg max-w-2xl">
-                  {movie.overview}
+                  {movie?.overview}
                 </p>
               </section>
             )}
