@@ -54,10 +54,10 @@ export default async function MoviesPage({
         </div>
 
         {movies.length === 0 ? (
-          <div className="text-center py-16 text-zinc-400">
-            <p className="text-lg mb-2">No movies found.</p>
+          <div className="text-center py-12 sm:py-16 text-zinc-400 px-4">
+            <p className="text-base sm:text-lg mb-2">No movies found – try another search</p>
             {hasFilters && (
-              <Link href="/movies" className="text-emerald-400 hover:underline">
+              <Link href="/movies" className="text-emerald-400 hover:underline text-sm sm:text-base">
                 Clear filters
               </Link>
             )}

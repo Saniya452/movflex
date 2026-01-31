@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import MovieCard from '@/components/ui/MovieCard';
+import Spinner from '@/components/ui/Spinner';
 import { getDiscoverMoviesPage, getDiscoverTVPage, getSearchPage } from '@/actions/discover';
 import type { Movie, TVShow } from '@/types';
 
@@ -77,7 +78,8 @@ export default function GridWithLoadMore(props: GridWithLoadMoreProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+      {/* Mobile-first grid: 2 cols mobile → 3 tablet → 4 → 5 → 6 desktop */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
         {items.map((item) => (
           <MovieCard
             key={getKey(item, mode, searchType)}
@@ -88,14 +90,21 @@ export default function GridWithLoadMore(props: GridWithLoadMoreProps) {
         ))}
       </div>
       {hasMore && (
-        <div className="mt-8 flex justify-center">
+        <div className="mt-6 sm:mt-8 flex justify-center">
           <button
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="px-6 py-3 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 disabled:opacity-60 disabled:cursor-not-allowed text-sm font-medium transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 disabled:opacity-60 disabled:cursor-not-allowed text-sm font-medium transition-colors min-w-[120px]"
           >
-            {loading ? 'Loading…' : 'More'}
+            {loading ? (
+              <>
+                <Spinner size="sm" className="border-t-white" />
+                <span>Loading…</span>
+              </>
+            ) : (
+              'More'
+            )}
           </button>
         </div>
       )}

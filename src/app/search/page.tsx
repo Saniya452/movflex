@@ -48,9 +48,15 @@ export default async function SearchPage({
         </h1>
 
         {results.length === 0 ? (
-          <div className="text-center py-16 text-zinc-400">
-            <p className="text-lg mb-2">No movies or TV shows found.</p>
-            <Link href="/" className="text-emerald-400 hover:underline">
+          <div className="text-center py-12 sm:py-16 text-zinc-400 px-4">
+            <p className="text-base sm:text-lg mb-2">
+              {type === 'movie'
+                ? 'No movies found – try another search'
+                : type === 'tv'
+                  ? 'No TV shows found – try another search'
+                  : 'No movies or TV shows found – try another search'}
+            </p>
+            <Link href="/" className="text-emerald-400 hover:underline text-sm sm:text-base">
               Back to home
             </Link>
           </div>
